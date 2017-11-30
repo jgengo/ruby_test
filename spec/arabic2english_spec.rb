@@ -62,7 +62,8 @@ describe ArabicToEnglish do
     # not_to
     random = Random.new
     50.times do
-      it { expect(@arabic_to_english.translate(random.rand(1...1000000000000))).not_to eq 'something else than number' }
+      num = random.rand(1...1000000000000)
+      it { expect(@arabic_to_english.translate(num)).not_to eq @arabic_to_english.translate(num+1) }
     end
   end
 
