@@ -15,11 +15,11 @@ describe ArabicToEnglish do
       it 'raise an ArgumentError if it\'s not an Integer' do 
         expect { @arabic_to_english.translate('Japan') }.to raise_error(ArgumentError, 'Argument is not an Integer')
       end
-      it 'raise an ArgumentError if it\'s not between 0 and 999' do
-        expect { @arabic_to_english.translate(-1) }.to raise_error(ArgumentError, 'Argument should be a value between 0 and 999')
+      it 'raise an ArgumentError if it\'s not between 0 and 999999999' do
+        expect { @arabic_to_english.translate(-1) }.to raise_error(ArgumentError, 'Argument should be a value between 0 and 999999999')
       end
-      it 'raise an ArgumentError if it\'s not between 0 and 999' do
-        expect { @arabic_to_english.translate(1000) }.to raise_error(ArgumentError, 'Argument should be a value between 0 and 999')
+      it 'raise an ArgumentError if it\'s not between 0 and 999999999' do
+        expect { @arabic_to_english.translate(1000000000) }.to raise_error(ArgumentError, 'Argument should be a value between 0 and 999999999')
       end
     end
 
@@ -45,13 +45,21 @@ describe ArabicToEnglish do
     it { expect(@arabic_to_english.translate(901)).to eq 'nine hundred one' }
     it { expect(@arabic_to_english.translate(999)).to eq 'nine hundred ninety nine' }
 
+    # more than thousand
+    it { expect(@arabic_to_english.translate(1540)).to eq 'one thousand five hundred forty' }
+    it { expect(@arabic_to_english.translate(4532)).to eq 'four thousand five hundred thirty two' }
+    it { expect(@arabic_to_english.translate(4242)).to eq 'four thousand two hundred forty two' }
+    it { expect(@arabic_to_english.translate(32323)).to eq 'thirty two thousand three hundred twenty three' }
+
+    # more than billions
+    it { expect(@arabic_to_english.translate(23230212)).to eq 'twenty three billion two hundred thirty thousand two hundred twelve' }
+    it { expect(@arabic_to_english.translate(135232876)).to eq 'one hundred thirty five billion two hundred thirty two thousand eigth hundred seventy six' }
+
     # not_to
-    it { expect(@arabic_to_english.translate(0)).not_to eq 'nine hundred ninety nine' }
-    it { expect(@arabic_to_english.translate(50)).not_to eq 'nine hundred ninety nine' }
-    it { expect(@arabic_to_english.translate(120)).not_to eq 'nine hundred ninety nine' }
-    it { expect(@arabic_to_english.translate(232)).not_to eq 'nine hundred ninety nine' }    
-    it { expect(@arabic_to_english.translate(345)).not_to eq 'nine hundred ninety nine' }
-    it { expect(@arabic_to_english.translate(912)).not_to eq 'nine hundred ninety nine' }
+    random = Random.new
+    50.times do
+      it { expect(@arabic_to_english.translate(random.rand(1...1000000000))).not_to eq 'something else than number' }
+    end
   end
 
   end
