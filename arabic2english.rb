@@ -3,6 +3,8 @@
 class ArabicToEnglish
   attr_accessor :ret
 
+
+  # === frozen const
   BASICS =  {
     1 => 'one', 2 => 'two', 3 => 'three', 4 => 'four',
     5 => 'five', 6 => 'six', 7 => 'seven', 8 => 'eight', 9 => 'nine',
@@ -17,10 +19,14 @@ class ArabicToEnglish
 
   UNITS = { 1 => 'thousand', 2 => 'million', 3 => 'billion' }.freeze
 
+
+  # === init
   def initialize
     @ret = ''
   end
 
+
+  # === public
   def translate(number)
     raise ArgumentError, 'Argument is not an Integer' unless number.is_a? Integer
     raise ArgumentError, 'Argument should be a value between 0 and 999999999999' unless number >= 0 and number <= 999999999999
@@ -41,6 +47,8 @@ class ArabicToEnglish
     array.reverse.join(' ').squeeze(' ')
   end
 
+
+  # === private
   private def ten(n)
     @ret += BASICS[n] and return if BASICS.key?(n)
     @ret += "#{ADVANCED[n/10]} "
@@ -53,8 +61,11 @@ class ArabicToEnglish
 
 end
 
-if ARGV[0]
-  puts ArabicToEnglish.new.translate ARGV[0].to_i
-else
-  puts "usage: ./arabic2english.rb number"
+# === main
+if __FILE__ == $0
+  if ARGV[0]
+    puts ArabicToEnglish.new.translate ARGV[0].to_i
+  else
+    puts "usage: ./arabic2english.rb number"
+  end
 end
