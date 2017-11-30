@@ -28,7 +28,7 @@ class ArabicToEnglish
 
   # === public
   def translate(number)
-    raise ArgumentError, 'Argument is not an Integer' if /\D/ =~ number
+    raise ArgumentError, 'Argument is not an Integer' unless /^(-?)\d+$/ =~ number
     number = number.to_i
     raise ArgumentError, 'Argument should be a value between 0 and 999999999999' unless number >= 0 and number <= 999999999999
 
