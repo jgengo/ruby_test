@@ -15,6 +15,8 @@ class ArabicToEnglish
     6 => 'sixty', 7 => 'seventy', 8 => 'eighty', 9 => 'ninety'
   }.freeze
 
+  UNITS = { 1 => 'thousand', 2 => 'million', 3 => 'billion' }.freeze
+
   def initialize
     @ret = ''
   end
@@ -25,16 +27,28 @@ class ArabicToEnglish
 
     return "zero" if number == 0
 
-    @ret += "#{BASICS[number / 100]} hundred " if number / 100 > 0
-    ten(number % 100) if number % 100 > 0
+    array = parse_number(number)
 
-    @ret.strip
+    array.each_with_index do |value, i|
+      @ret += "#{BASICS[value / 100]} hundred " if value / 100 > 0
+      ten(value % 100) if value % 100 > 0
+      @ret += " #{UNITS[i]} " if UNITS.key?(i)
+
+      array[i] = @ret.strip
+      @ret = ''
+    end
+
+    array.reverse.join(' ').squeeze(' ')
   end
 
   private def ten(n)
     @ret += BASICS[n] and return if BASICS.key?(n)
     @ret += "#{ADVANCED[n/10]} "
     @ret += BASICS[n%10] if n%10 != 0
+  end
+
+  private def parse_number(n)
+    n.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1 ').reverse.split.reverse.map(&:to_i)
   end
 
 end

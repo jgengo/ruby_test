@@ -53,11 +53,11 @@ describe ArabicToEnglish do
 
     # more than millions
     it { expect(@arabic_to_english.translate(23230212)).to eq 'twenty three million two hundred thirty thousand two hundred twelve' }
-    it { expect(@arabic_to_english.translate(135232876)).to eq 'one hundred thirty five million two hundred thirty two thousand eigth hundred seventy six' }
+    it { expect(@arabic_to_english.translate(135232876)).to eq 'one hundred thirty five million two hundred thirty two thousand eight hundred seventy six' }
 
     # more than billions
     it { expect(@arabic_to_english.translate(765623230212)).to eq 'seven hundred sixty five billion six hundred twenty three million two hundred thirty thousand two hundred twelve' }
-    it { expect(@arabic_to_english.translate(23135232876)).to eq 'twenty three billion one hundred thirty five million two hundred thirty two thousand eigth hundred seventy six' }
+    it { expect(@arabic_to_english.translate(23135232876)).to eq 'twenty three billion one hundred thirty five million two hundred thirty two thousand eight hundred seventy six' }
 
     # not_to
     random = Random.new
